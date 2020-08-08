@@ -1,0 +1,13 @@
+{% if not authors %}
+    <h1>The author you're looking for isn't here.</h1>
+{% else %}
+    <h1>{{ authors.name }}</h1>
+    <p>{{ authors.bio }}</p>
+    <ul>
+    {% for recipe in recipes %}
+        <li>
+            <a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

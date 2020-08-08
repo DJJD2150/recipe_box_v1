@@ -1,0 +1,9 @@
+{% if not recipes %}
+    <h1>The recipe you're looking for isn't here.</h1>
+{% else %}
+    <h1>{{ recipes.title }}</h1>
+    <p><a href="/author/{{ recipes.author.id }}">{{ recipes.author.name }}</a></p>
+    <p>{{ recipes.description }}</p>
+    <h2>{{ recipes.time_required }}</h2>
+    <p>{{ recipes.instructions }}</p>
+{% endif %}
