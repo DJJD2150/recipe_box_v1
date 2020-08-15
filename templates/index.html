@@ -1,8 +1,9 @@
 <h1>{{ homepage }}</h1>
+<h2>Am I authenticated? {{ request.user.is_authenticated }}</h2>
 <ul>
     {% for recipe in index %}
         <li>
-            <a href="recipe/{{ recipe.id }}">{{ recipe.title }} by {{ recipe.author.name }}</a>
+            <a href="recipe/{{ recipe.id }}">{{ recipe.title }}</a>
         </li>
     {% endfor %}
 </ul>
