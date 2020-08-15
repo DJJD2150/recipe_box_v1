@@ -6,12 +6,12 @@
 <ul>
     {% for recipe in index %}
         <li>
-            <a href="recipe/{{ recipe.id }}">{{ recipe.title }}</a>
+            <a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>
         </li>
     {% endfor %}
 </ul>
-<a href="addauthor/">Add Author</a>
-<a href="addrecipe/">Add Recipe</a>
+<a href="/addauthor/">Add Author</a>
+<a href="/addrecipe/">Add Recipe</a>
 
 {% if request.user.is_authenticated %}
     <p>

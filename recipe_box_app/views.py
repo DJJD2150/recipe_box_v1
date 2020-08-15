@@ -58,6 +58,9 @@ def add_author(request):
 def add_recipe(request):
     if request.method == "POST":
         form = AddRecipeForm(request.POST)
+        # new_recipe = form.save(commit=False)
+        # new_recipe.author = request.User.author
+        # new_recipe.save()
         if form.is_valid():
             data = form.cleaned_data
             Recipe.objects.create(
@@ -67,7 +70,7 @@ def add_recipe(request):
                 time_required=data.get('time_required'),
                 instructions=data.get('instructions'),
             )
-            return HttpResponseRedirect(reverse("homepage"))
+        return HttpResponseRedirect(reverse("homepage"))
 
     form = AddRecipeForm()
     return render(request, "generic_form.html", {"form": form})
