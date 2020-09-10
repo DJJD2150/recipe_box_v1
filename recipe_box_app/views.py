@@ -29,6 +29,52 @@ def recipe_view(request, recipe_id):
                                             "post": all_recipes})
 
 
+def my_favorites_view (request):
+    users_favorites = request.user.author.favorites.all()
+    return render(request, 'favorites.html',{'favorites': users_favorites})
+    pass
+
+
+def add_favorite_view(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    request.user.author.favorites.add(recipe)
+    request.user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+
+
+def remove_favorite_view(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    request.user.author.favorites.remove(recipe)
+    request.user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+
+
+@login_required
+def edit_recipe_view(request, recipe_id):
+    recipe = Recipe.objects.filter(id=recipe_id).first()
+    if not request.user.is_staff:
+        if not recipe.author == request.user.author:
+            return HttpResponseRedirect('/forbidden')
+    if request.method == 'POST': 
+        form = AddRecipeForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            recipe.title = data['title']
+            recipe.description = data['description']
+            recipe.time_required = data['time_required']
+            recipe.instructions = data['instructions']
+            recipe.save()
+            return HttpResponseRedirect('/')
+    data = {
+        'title': recipe.title,
+        'description': recipe.description,
+        'time_required': recipe.time_required,
+        'instructions': recipe.instructions
+    }
+    form = AddRecipeForm(initial=data)
+    return render(request, 'generic_form.html', {'form': form})
+
+
 @login_required
 def add_author(request):
     if not request.user.is_staff:
@@ -98,6 +144,7 @@ def login_view(request):
     return render(request, "generic_form.html", {"form": form})
 
 
+@login_required
 def signup_view(request):
     if request.method == "POST":
         form = AddSignupForm(request.POST)
@@ -110,7 +157,6 @@ def signup_view(request):
             Author.objects.create(name=data.get("username"), user=new_user)
             login(request, new_user)
             return HttpResponseRedirect(reverse("homepage"))
-
     form = AddSignupForm()
     return render(request, "generic_form.html", {"form": form})
 

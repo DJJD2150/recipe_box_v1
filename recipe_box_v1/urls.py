@@ -19,8 +19,12 @@ from recipe_box_app import views
 
 urlpatterns = [
     path('', views.index_view, name="homepage"),
-    path('author/<int:author_id>', views.author_view),
-    path('recipe/<int:recipe_id>', views.recipe_view),
+    path('edit/<int:recipe_id>/', views.edit_recipe_view),
+    path('favorite/<int:recipe_id>/', views.add_favorite_view),
+    path('unfavorite/<int:recipe_id>/', views.remove_favorite_view),
+    path('author/<int:author_id>/', views.author_view),
+    path('recipe/<int:recipe_id>/', views.recipe_view),
+    path('myfavorites/', views.my_favorites_view),
     path('addauthor/', views.add_author, name="addauthor"),
     path('addrecipe/', views.add_recipe, name="addrecipe"),
     path('login/', views.login_view, name="loginview"),

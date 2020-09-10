@@ -10,7 +10,9 @@
 <ul>
     {% for recipe in index %}
         <li>
-            <a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>
+            <a href="/recipe/{{ recipe.id }}/">{{ recipe.title }}</a>
+            <br>
+            <!-- <span>edit <a href="edit/{{recipe.id}}/">here</a></span> -->
         </li>
     {% endfor %}
 </ul>
