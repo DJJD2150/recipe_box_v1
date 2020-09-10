@@ -31,6 +31,8 @@ def recipe_view(request, recipe_id):
 
 @login_required
 def add_author(request):
+    if not request.user.is_staff:
+        return HttpResponseRedirect('/forbidden')
     if request.user.is_staff:
         if request.method == "POST":
             form = AddAuthorForm(request.POST)
@@ -88,9 +90,9 @@ def login_view(request):
             )
             if user:
                 login(request, user)
-            return HttpResponseRedirect(
+                return HttpResponseRedirect(
                 request.GET.get('next', reverse("homepage"))
-            )
+                )
 
     form = AddLoginForm()
     return render(request, "generic_form.html", {"form": form})
@@ -111,6 +113,9 @@ def signup_view(request):
 
     form = AddSignupForm()
     return render(request, "generic_form.html", {"form": form})
+
+def forbidden(request):
+    return render(request, 'forbidden.html')
 
 
 def logout_view(request):
