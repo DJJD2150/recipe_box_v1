@@ -1,8 +1,24 @@
 <h1>{{ homepage }}</h1>
+
+{% if request.user.is_authenticated %}
+    <h2>Welcome, {{ request.user.author}}!</h2>
+    <span>go to your profile <a href="author/{{request.user.author.id}}/">here</a></span>
+    <br>
+{% endif %}
+<span><a href="/addauthor/">Add Author</a></span>
+<span><a href="/addrecipe/">Add Recipe</a></span>
 <ul>
     {% for recipe in index %}
         <li>
-            <a href="recipe/{{ recipe.id }}">{{ recipe.title }} by {{ recipe.author.name }}</a>
+            <a href="/recipe/{{ recipe.id }}/">{{ recipe.title }}</a>
+            <br>
+            <!-- <span>edit <a href="edit/{{recipe.id}}/">here</a></span> -->
         </li>
     {% endfor %}
 </ul>
+<br>
+{% if not request.user.is_authenticated %}
+    <span><a href="/login/"><button>Login</button></a></span>
+{% else %}
+    <span><a href="/logout/"><button>Logout</button></a></span>
+{% endif %}

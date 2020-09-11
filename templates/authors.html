@@ -1,8 +1,22 @@
 {% if not authors %}
     <h1>The author you're looking for isn't here.</h1>
-{% else %}
-    <h1>{{ authors.name }}</h1>
-    <p>{{ authors.bio }}</p>
+{% endif %}
+
+<h1>{{ authors.name }}</h1>
+<p>{{ authors.bio }}</p>
+
+{% if request.user.author == authors %}
+    <span>
+        this is what everyone sees when they look at your profile
+        <br>
+        but only you can see this message don't worry
+        <br>
+    </span>
+    <br>
+    <span>you have {{request.user.author.favorites.count}} <a href="/myfavorites/">favorites</a></span>
+
+{% endif %}
+
     <ul>
     {% for recipe in recipes %}
         <li>
@@ -10,4 +24,5 @@
         </li>
     {% endfor %}
     </ul>
-{% endif %}
+
+<span>go <a href="/">home</a></span>

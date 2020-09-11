@@ -1,9 +1,19 @@
 {% if not recipes %}
     <h1>The recipe you're looking for isn't here.</h1>
 {% else %}
-    <h1>{{ recipes.title }}</h1>
+    <h2>{{ recipes.title }}</h2>
     <p><a href="/author/{{ recipes.author.id }}">{{ recipes.author.name }}</a></p>
     <p>{{ recipes.description }}</p>
     <h2>{{ recipes.time_required }}</h2>
     <p>{{ recipes.instructions }}</p>
+    <button>edit <a href="/edit/{{recipes.id}}/">here</a></button>
+    {% if request.user.is_authenticated %}
+        {% if recipes in request.user.author.favorites.all %}
+        <button>unfavorite <a href="/unfavorite/{{recipes.id}}/">here</a></button>
+        {% else %}
+        <button>favorite <a href="/favorite/{{recipes.id}}/">here</a></button>
+        {% endif %}
+    {% endif%}
 {% endif %}
+<br>
+<span>go <a href="/">home</a></span>
